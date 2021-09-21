@@ -14,6 +14,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       locationResult: {},
+      weatherRes: [],
       searchQuery: '',
       showLocInfo: false,
     };
@@ -30,9 +31,16 @@ class App extends React.Component {
 
     let locResult = await axios.get(reqUrl);
 
+    let weatherUrl = `${process.env.REACT_APP_SERVER_LINK}/weather?searchQ=${this.state.searchQuery}`;
+
+    let weatherResult = await axios.get(weatherUrl);
+
+
     this.setState({
       locationResult: locResult.data[0],
+      weatherRes: weatherResult.data,
       showLocInfo: true,
+
     });
   };
 
@@ -76,6 +84,20 @@ class App extends React.Component {
                     <p>LATITUDE: {this.state.locationResult.lat}</p>
 
                     <p>LONGITUDEl: {this.state.locationResult.lon} </p>
+
+                    {this.state.weatherRes.map(value =>{
+                      return(
+                        <>
+
+
+                    <p>date: {value.date}</p>
+
+                    <p>description: {value.description} </p>
+
+
+                        </>
+                      )
+                    })}
 
                   </Card.Text>
 
