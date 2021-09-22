@@ -1,20 +1,18 @@
 import React from "react";
-
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import axios from "axios";
-
 import Button from "react-bootstrap/Button";
-
 import Form from "react-bootstrap/Form";
-
 import Card from "react-bootstrap/Card";
+import Weather from "./Moduel/Weather";
+import Movie from "./Moduel/Movie";
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       locationResult: {},
       weatherRes: [],
+      MovieRes: [],
       searchQuery: '',
       showLocInfo: false,
     };
@@ -35,15 +33,18 @@ class App extends React.Component {
 
     let weatherResult = await axios.get(weatherUrl);
 
+    let MovieUrl = `${process.env.REACT_APP_MOVIES_LINK}/movie?searchQuery=${e.target.city.value}`;
 
+    let MovieResult = await axios.get(MovieUrl); 
+    
     this.setState({
       locationResult: locResult.data[0],
       weatherRes: weatherResult.data,
+      MovieRes: MovieResult.data,
       showLocInfo: true,
 
     });
   };
-
   render() {
     return (
       <div>
@@ -54,7 +55,7 @@ class App extends React.Component {
 
         <main style={{ backgroundColor: "lightblue", marginTop: '-25px' }}>
 
-          <Form onSubmit={this.getLocFun} style={{ width: "25rem", marginLeft: '30px', marginTop: '30px', paddingBottom: '50px', maxHeight: '1000', paddingTop:'50px' }} >
+          <Form onSubmit={this.getLocFun} style={{ width: "25rem", marginLeft: '30px', marginTop: '30px', paddingBottom: '50px', maxHeight: '1000', paddingTop: '50px' }} >
 
             <Form.Group className="mb-3" controlId="SearchForLocation">
 
@@ -85,19 +86,14 @@ class App extends React.Component {
 
                     <p>LONGITUDEl: {this.state.locationResult.lon} </p>
 
-                    {this.state.weatherRes.map(value =>{
-                      return(
-                        <>
 
 
-                    <p>date: {value.date}</p>
+                 
+                    <Weather WeatherResult={this.state.WeatherResult} />
 
-                    <p>description: {value.description} </p>
 
-
-                        </>
-                      )
-                    })}
+                    <Movie MovieResult={this.state.MovieResult}/>
+              
 
                   </Card.Text>
 
