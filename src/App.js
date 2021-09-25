@@ -35,8 +35,8 @@ class App extends React.Component {
 
     let MovieUrl = `${process.env.REACT_APP_MOVIES_LINK}/movie?searchQuery=${e.target.city.value}`;
 
-    let MovieResult = await axios.get(MovieUrl); 
-    
+    let MovieResult = await axios.get(MovieUrl);
+
     this.setState({
       locationResult: locResult.data[0],
       weatherRes: weatherResult.data,
@@ -88,12 +88,12 @@ class App extends React.Component {
 
 
 
-                 
+
                     <Weather WeatherResult={this.state.WeatherResult} />
 
 
-                    <Movie MovieResult={this.state.MovieResult}/>
-              
+                    <Movie MovieResult={this.state.MovieResult} />
+
 
                   </Card.Text>
 
